@@ -30,6 +30,7 @@
 		<!-- 3rdparty Loggers -->
 		<logger name="com.job" level="debug" />
 		<logger name="org.springframework" level="info" />
+		<logger name="org.thymeleaf" level="info" />
 		<logger name="org.hibernate" level="info" />
 		<logger name="org.apache" level="info" />
 		<logger name="org.mybatis.spring.SqlSessionUtils" level="info" />
