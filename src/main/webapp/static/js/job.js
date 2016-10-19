@@ -37,12 +37,12 @@ $(function() {
     });
 
     $("#cronExpressionBtn").click(function(event) {
-      var name = $("#cronExpressionForm[name='triggerName']").val();
+      var name = $("#cronExpressionForm [name='triggerName']").val();
       if (name == undefined || name == null || name == '') {
         showMessage("请输入Trigger名称.");
         return;
       }
-      var cronExpression = $("#cronExpressionForm[name='cronExpression']").val();
+      var cronExpression = $("#cronExpressionForm [name='cronExpression']").val();
       if (cronExpression == undefined || cronExpression == null || cronExpression == '') {
         showMessage('请输入Cron表达式.');
         return;
@@ -51,12 +51,12 @@ $(function() {
     });
 
     $("#frequencyBtn").click(function(event) {
-      var name = $("#frequencyForm[name='triggerName']").val();
+      var name = $("#frequencyForm [name='triggerName']").val();
       if (name == undefined || name == null || name == '') {
         showMessage('请输入Trigger名称.');
         return;
       }
-      var intervalTime = $("#frequencyForm[name='intervalTime']").val();
+      var intervalTime = $("#frequencyForm [name='intervalTime']").val();
       if (intervalTime == undefined || intervalTime == null || intervalTime == '') {
         showMessage('请输入执行间隔时间.');
         return;
@@ -65,19 +65,19 @@ $(function() {
     });
 
     $("#timeBtn").click(function(event) {
-      var name = $("#timeForm[name='triggerName']").val();
+      var name = $("#timeForm [name='triggerName']").val();
       if (name == undefined || name == null || name == '') {
         showMessage('请输入Trigger名称.');
         return;
       }
 
-      var startTime = $("#timeForm[name='startTime']").val();
+      var startTime = $("#timeForm [name='startTime']").val();
       if (startTime == undefined || startTime == null || startTime == '') {
         showMessage('请输入Trigger名称.');
         return;
       }
 
-      var endTime = $("#timeForm[name='endTime']").val();
+      var endTime = $("#timeForm [name='endTime']").val();
       if (endTime == undefined || endTime == null || endTime == '') {
         showMessage('请输入Trigger名称.');
         return;
