@@ -14,29 +14,29 @@ public class ServerBuilderContext {
 
     private static Logger log = LoggerFactory.getLogger(ServerBuilderContext.class);
 
-    public static Map<String, Class<? extends DefaultService>> servers = new HashMap<String, Class<? extends DefaultService>>();
+    public static Map<String, Class<? extends DefaultService>> SERVERS = new HashMap<String, Class<? extends DefaultService>>();
 
     @Autowired
     private ApplicationContext applicationContext;
 
     public static void addServer(String serverName, Class<? extends DefaultService> clazz) {
-        log.info("##  Add Server for serverName:[{}].", serverName);
-        servers.put(serverName, clazz);
+        log.info("##ServerBuilderContext.addServer({} , {})", serverName, clazz);
+        SERVERS.put(serverName, clazz);
     }
 
     private DefaultService getServer(String serverName) {
-        Class<? extends DefaultService> clazz = servers.get(serverName);
+        Class<? extends DefaultService> clazz = SERVERS.get(serverName);
         DefaultService processor = applicationContext.getBean(clazz);
         return processor;
     }
 
     public void execute(String serverName) {
-        log.info("# execute");
+        log.info("#ServerBuilderContext.execute({})", serverName);
         DefaultService server = getServer(serverName);
         try {
             server.execute();
         } catch (Exception e) {
-            log.info("# ServerBuilderContext execute error  , [{}]", e.getLocalizedMessage());
+            log.info("#ServerBuilderContext.execute({}) error  , [{}]", serverName, e.getLocalizedMessage());
         }
     }
 

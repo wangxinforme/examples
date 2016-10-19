@@ -27,26 +27,26 @@ public class CustomerService extends DefaultService {
 
     @Override
     public String getClassName() {
-        return "CustomerService";
+        return "customerService";
     }
 
     @Override
     @PostConstruct
     public void addService() {
-        log.info("# add server for CustomerService");
+        log.info("#CustomerService.class add to ServerBuilderContext.servers");
         ServerBuilderContext.addServer(getClassName(), CustomerService.class);
     }
 
     @Override
     public void execute() {
-        log.info("#开始处理业务 , server name=[{}]", getClassName());
+        log.info("#begin {}.execute()", getClassName());
         // 这里执行定时调度业务
         Map<String, Object> map = new HashMap<String, Object>();
         List<Customer> list = customerMapper.findAllByFilter(map);
         for (Customer customer : list) {
             log.info("#customer id={} , name={} , email={} , age={}", customer.getId(), customer.getName(), customer.getEmail(), customer.getAge());
         }
-        log.info("#结束处理业务 , server name=[{}]", getClassName());
+        log.info("#end {}.execute()\r\t", getClassName());
     }
 
 }

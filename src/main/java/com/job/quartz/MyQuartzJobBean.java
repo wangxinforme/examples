@@ -28,7 +28,7 @@ public class MyQuartzJobBean extends QuartzJobBean {
         try {
             serverBuilderContext.execute(group);
         } catch (Exception e) {
-            log.info("# executeInternal error message=[{}]", e.getLocalizedMessage());
+            log.info("#MyQuartzJobBean.executeInternal , group={} error message=[{}]", group, e.getLocalizedMessage());
         }
     }
 
@@ -36,7 +36,7 @@ public class MyQuartzJobBean extends QuartzJobBean {
         try {
             return (ApplicationContext) jobexecutioncontext.getScheduler().getContext().get("applicationContextKey");
         } catch (SchedulerException e) {
-            log.error("# getApplicationContext=[{}]", e.getLocalizedMessage());
+            log.error("#MyQuartzJobBean.getApplicationContext , error message={}", e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }

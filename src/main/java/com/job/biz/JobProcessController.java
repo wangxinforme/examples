@@ -51,7 +51,7 @@ public class JobProcessController {
         log.info("# 即将进入首页..");
         List<QrtzTriggers> results = this.schedulerService.getQrtzTriggers(null, null);
         model.addAttribute("list", results);
-        model.addAttribute("servers", ServerBuilderContext.servers.keySet());
+        model.addAttribute("servers", ServerBuilderContext.SERVERS.keySet());
         return "job/index";
     }
 
@@ -93,7 +93,7 @@ public class JobProcessController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String toAdd(Model model) {
-        model.addAttribute("servers", ServerBuilderContext.servers.keySet());
+        model.addAttribute("servers", ServerBuilderContext.SERVERS.keySet());
         log.info("# 进入新增页面");
         return "job/add";
     }
@@ -106,7 +106,7 @@ public class JobProcessController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Model model, @ModelAttribute Trigger trigger) {
         try {
-            model.addAttribute("servers", ServerBuilderContext.servers.keySet());
+            model.addAttribute("servers", ServerBuilderContext.SERVERS.keySet());
             // 添加任务调试
             log.info("# triggerType={}", trigger.getTriggerType());
             switch (trigger.getTriggerType()) {
