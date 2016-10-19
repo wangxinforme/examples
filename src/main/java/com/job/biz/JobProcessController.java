@@ -28,6 +28,7 @@ import com.job.biz.service.ServerBuilderContext;
 import com.job.quartz.service.SchedulerService;
 
 @Controller
+@RequestMapping("job")
 public class JobProcessController {
 
     private static final Logger log = LoggerFactory.getLogger(JobProcessController.class);
@@ -51,7 +52,7 @@ public class JobProcessController {
         List<QrtzTriggers> results = this.schedulerService.getQrtzTriggers(null, null);
         model.addAttribute("list", results);
         model.addAttribute("servers", ServerBuilderContext.servers.keySet());
-        return "index";
+        return "job/index";
     }
 
     /**
@@ -94,7 +95,7 @@ public class JobProcessController {
     public String toAdd(Model model) {
         model.addAttribute("servers", ServerBuilderContext.servers.keySet());
         log.info("# 进入新增页面");
-        return "add";
+        return "job/add";
     }
 
     /**
@@ -129,8 +130,7 @@ public class JobProcessController {
                 break;
             case 3:
                 // 添加任务调试
-                log.info("# name={} , startTimie={} , endTime={} , repeatCount={} , repeatInterval={} , group={}", trigger.getTriggerName(), trigger.getStartTime(), trigger.getEndTime(), trigger.getRepeatCount(), trigger.getRepeatInterval(),
-                    trigger.getTriggerName());
+                log.info("# name={} , startTimie={} , endTime={} , repeatCount={} , repeatInterval={} , group={}", trigger.getTriggerName(), trigger.getStartTime(), trigger.getEndTime(), trigger.getRepeatCount(), trigger.getRepeatInterval(), trigger.getTriggerName());
                 schedulerService.schedule(trigger.getTriggerName(), trigger.getStartTime(), trigger.getEndTime(), trigger.getRepeatCount(), trigger.getRepeatInterval(), trigger.getTriggerName());
                 // 指定时间执行模式
                 break;
@@ -140,6 +140,6 @@ public class JobProcessController {
         } catch (Exception e) {
             log.error("# 新增trigger失败 , error message={}", e.getMessage());
         }
-        return "index";
+        return "job/index";
     }
 }

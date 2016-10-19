@@ -107,11 +107,11 @@ function trigger(name, group, flag) {
       } else {
         showMessage("操作失败!");
       }
-      window.location.href = _ctx + "/index";
+      window.location.href = _ctx + "/job/index";
     },
     error: function(data, status, e) { // 服务器响应失败时的处理函数
       showMessage("操作失败!");
-      window.location.href = _ctx + "/index";
+      window.location.href = _ctx + "/job/index";
     }
   });
 }

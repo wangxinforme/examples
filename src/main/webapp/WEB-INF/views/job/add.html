@@ -42,8 +42,8 @@
 		<div class="row">
 			<div class="col-sm-2 col-md-1 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a th:href="${application.ctx +'/index'}">控制台</a></li>
-					<li class="active"><a th:href="${application.ctx +'/add'}">新增</a></li>
+					<li><a th:href="${application.ctx +'/job/index'}">控制台</a></li>
+					<li class="active"><a th:href="${application.ctx +'/job/add'}">新增</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main">
@@ -60,7 +60,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" th:action="${application.ctx +'/add'}" method="post" id="cronExpressionForm">
+									<form class="form-horizontal" role="form" th:action="${application.ctx +'/job/add'}" method="post" id="cronExpressionForm">
 										<input type="hidden" name="triggerType" value="1" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -71,7 +71,7 @@
 										<div class="form-group">
 											<label for="triggerGroup" class="col-sm-2 control-label">Trigger分组</label>
 											<div class="col-sm-10">
-												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}" >
+												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}">
 													<option th:value="${tg }" th:text="${tg}"></option>
 												</select>
 											</div>
@@ -96,7 +96,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" th:action="${application.ctx +'/add'}" method="post" id="frequencyForm">
+									<form class="form-horizontal" role="form" th:action="${application.ctx +'/job/add'}" method="post" id="frequencyForm">
 										<input type="hidden" name="triggerType" value="2" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -107,7 +107,7 @@
 										<div class="form-group">
 											<label for="triggerGroup" class="col-sm-2 control-label">Trigger分组</label>
 											<div class="col-sm-10">
-												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}" >
+												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}">
 													<option th:value="${tg }" th:text="${tg}"></option>
 												</select>
 											</div>
@@ -141,7 +141,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" th:action="${application.ctx +'/add'}" method="post" id="timeForm">
+									<form class="form-horizontal" role="form" th:action="${application.ctx +'/job/add'}" method="post" id="timeForm">
 										<input type="hidden" name="triggerType" value="3" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -152,7 +152,7 @@
 										<div class="form-group">
 											<label for="triggerGroup" class="col-sm-2 control-label">Trigger分组</label>
 											<div class="col-sm-10">
-												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}" >
+												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}">
 													<option th:value="${tg }" th:text="${tg}"></option>
 												</select>
 											</div>
@@ -214,6 +214,6 @@
     var _ctx = [[${application.ctx}]];
     var currentPage = "add";
   </script>
-	<script th:src="${application.ctx+'/static/js/job.js?'+application.version_js}"></script>
+	<script th:src="${application.ctx+'/static/js/job/job.js?'+application.version_js}"></script>
 </body>
 </html>

@@ -51,19 +51,12 @@
 		<servlet-name>springDispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
-		<description>任务高度处理Servlet</description>
-		<display-name>JobProcessServlet</display-name>
-		<servlet-name>JobProcessServlet</servlet-name>
-		<servlet-class>com.job.biz.servlet.JobProcessServlet</servlet-class>
+		<servlet-name>initializeServlet</servlet-name>
+		<servlet-class>com.job.biz.initialize.InitializeServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
 	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>JobProcessServlet</servlet-name>
-		<url-pattern>/JobProcessServlet</url-pattern>
-	</servlet-mapping>
-
 
 	<session-config>
 		<session-timeout>30</session-timeout>
@@ -80,13 +73,7 @@
 		<location>/404</location>
 	</error-page>
 
-	<!-- <welcome-file-list> -->
-	<!-- <welcome-file>index.html</welcome-file> -->
-	<!-- <welcome-file>index.htm</welcome-file> -->
-	<!-- <welcome-file>index.jsp</welcome-file> -->
-	<!-- <welcome-file>default.html</welcome-file> -->
-	<!-- <welcome-file>default.htm</welcome-file> -->
-	<!-- <welcome-file>default.jsp</welcome-file> -->
-	<!-- </welcome-file-list> -->
+	
+
 </web-app>
 
