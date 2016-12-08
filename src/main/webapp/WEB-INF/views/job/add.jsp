@@ -1,5 +1,7 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,17 +9,17 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link rel="icon" type="image/x-icon" th:href="${application.ctx +'/static/images/favicon.ico'}" />
-<link rel="shortcut icon" type="image/x-icon" th:href="${application.ctx +'/static/images/favicon.ico'}" />
+<link rel="icon" type="image/x-icon" href="${ctx}/static/images/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="${ctx}/static/images/favicon.ico">
 
 <title>定时任务控制台</title>
 
-<link th:href="${application.ctx+'/static/bootstrap/css/bootstrap.css?'+application.version_css}" rel="stylesheet" />
-<link th:href="${application.ctx+'/static/bootstrap/css/dashboard.css?'+application.version_css}" rel="stylesheet" />
-<link th:href="${application.ctx+'/static/jquery/ui/jquery-ui.min.css?'+application.version_css}" rel="stylesheet" type="text/css" />
-<link th:href="${application.ctx+'/static/jquery/ui/jquery-ui-timepicker-addon.css?'+application.version_css}" rel="stylesheet" />
+<link href="${ctx}/static/bootstrap/css/bootstrap.css?${version_css}" rel="stylesheet">
+<link href="${ctx}/static/bootstrap/css/dashboard.css?${version_css}" rel="stylesheet">
+<link href="${ctx}/static/jquery/ui/jquery-ui.min.css?${version_css}" rel="stylesheet" type="text/css" />
+<link href="${ctx}/static/jquery/ui/jquery-ui-timepicker-addon.css?${version_css}" rel="stylesheet">
 
-<script th:src="${application.ctx+'/static/bootstrap/js/ie-emulation-modes-warning.js?'+application.version_js}"></script>
+<script src="${ctx}/static/bootstrap/js/ie-emulation-modes-warning.js?${version_js}"></script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
   <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
@@ -28,22 +30,22 @@
 <body>
 
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">定时任务系统</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">定时任务系统</a>
-			</div>
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">定时任务系统</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">定时任务系统</a>
 		</div>
+	</div>
 	</nav>
 
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-2 col-md-1 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a th:href="${application.ctx +'/job/index'}">控制台</a></li>
-					<li class="active"><a th:href="${application.ctx +'/job/add'}">新增</a></li>
+					<li><a href="${ctx }/job/index">控制台</a></li>
+					<li class="active"><a href="${ctx }/job/add">新增</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main">
@@ -60,7 +62,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" th:action="${application.ctx +'/job/add'}" method="post" id="cronExpressionForm">
+									<form class="form-horizontal" role="form" action="${ctx }/add" method="post" id="cronExpressionForm">
 										<input type="hidden" name="triggerType" value="1" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -71,8 +73,10 @@
 										<div class="form-group">
 											<label for="triggerGroup" class="col-sm-2 control-label">Trigger分组</label>
 											<div class="col-sm-10">
-												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}">
-													<option th:value="${tg }" th:text="${tg}"></option>
+												<select class="form-control" name="triggerGroup">
+													<c:forEach var="tg" items="${servers }">
+														<option value="${tg }">${tg }</option>
+													</c:forEach>
 												</select>
 											</div>
 										</div>
@@ -96,7 +100,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" th:action="${application.ctx +'/job/add'}" method="post" id="frequencyForm">
+									<form class="form-horizontal" role="form" action="${ctx }/add" method="post" id="frequencyForm">
 										<input type="hidden" name="triggerType" value="2" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -107,8 +111,10 @@
 										<div class="form-group">
 											<label for="triggerGroup" class="col-sm-2 control-label">Trigger分组</label>
 											<div class="col-sm-10">
-												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}">
-													<option th:value="${tg }" th:text="${tg}"></option>
+												<select class="form-control" name="triggerGroup">
+													<c:forEach var="tg" items="${servers }">
+														<option value="${tg }">${tg }</option>
+													</c:forEach>
 												</select>
 											</div>
 										</div>
@@ -141,7 +147,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" th:action="${application.ctx +'/job/add'}" method="post" id="timeForm">
+									<form class="form-horizontal" role="form" action="${ctx }/add" method="post" id="timeForm">
 										<input type="hidden" name="triggerType" value="3" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -152,8 +158,10 @@
 										<div class="form-group">
 											<label for="triggerGroup" class="col-sm-2 control-label">Trigger分组</label>
 											<div class="col-sm-10">
-												<select class="form-control" name="triggerGroup" th:each="tg,stat : ${servers}">
-													<option th:value="${tg }" th:text="${tg}"></option>
+												<select class="form-control" name="triggerGroup">
+													<c:forEach var="tg" items="${servers }">
+														<option value="${tg }">${tg }</option>
+													</c:forEach>
 												</select>
 											</div>
 										</div>
@@ -203,17 +211,17 @@
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script th:src="${application.ctx+'/static/jquery/jquery-3.1.0.min.js?'+application.version_js}"></script>
-	<script th:src="${application.ctx+'/static/jquery/ui/jquery-ui.min.js?'+application.version_js}"></script>
-	<script th:src="${application.ctx+'/static/jquery/ui/jquery-ui-timepicker-addon.js?'+application.version_js}"></script>
+	<script src="${ctx}/static/jquery/jquery-3.1.0.min.js?${version_js}"></script>
+	<script src="${ctx}/static/jquery/ui/jquery-ui.min.js?${version_js}"></script>
+	<script src="${ctx}/static/jquery/ui/jquery-ui-timepicker-addon.js?${version_js}"></script>
 
-	<script th:src="${application.ctx+'/static/bootstrap/js/bootstrap.min.js?'+application.version_js}"></script>
+	<script src="${ctx}/static/bootstrap/js/bootstrap.min.js?${version_js}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script th:src="${application.ctx+'/static/bootstrap/js/ie10-viewport-bug-workaround.js?'+application.version_js}"></script>
-	<script th:inline="javascript">
-    var _ctx = [[${application.ctx}]];
+	<script src="${ctx}/static/bootstrap/js/ie10-viewport-bug-workaround.js?${version_js}"></script>
+	<script type="text/javascript">
+    var _ctx = "${ctx}";
     var currentPage = "add";
   </script>
-	<script th:src="${application.ctx+'/static/js/job/job.js?'+application.version_js}"></script>
+	<script src="${ctx}/static/js/job.js?${version_js}"></script>
 </body>
 </html>
