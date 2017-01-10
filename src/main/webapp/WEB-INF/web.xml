@@ -51,7 +51,7 @@
 		<servlet-name>springDispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>initializeServlet</servlet-name>
 		<servlet-class>com.job.biz.initialize.InitializeServlet</servlet-class>
@@ -73,7 +73,9 @@
 		<location>/404</location>
 	</error-page>
 
-	
+	<welcome-file-list>
+		<welcome-file>job/index.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>
 

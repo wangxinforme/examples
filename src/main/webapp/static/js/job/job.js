@@ -73,13 +73,13 @@ $(function() {
 
       var startTime = $("#timeForm [name='startTime']").val();
       if (startTime == undefined || startTime == null || startTime == '') {
-        showMessage('请输入Trigger名称.');
+        showMessage('请选择开始时间.');
         return;
       }
 
       var endTime = $("#timeForm [name='endTime']").val();
       if (endTime == undefined || endTime == null || endTime == '') {
-        showMessage('请输入Trigger名称.');
+        showMessage('请选择结束时间.');
         return;
       }
       $("#timeForm").submit();
@@ -94,7 +94,7 @@ function trigger(name, group, flag) {
   console.log(name, group, flag);
   $.ajax({
     type: "post",
-    url: _ctx + "/trigger",
+    url: _ctx + "/job/trigger",
     dataType: 'json',
     data: {
       "name": name,

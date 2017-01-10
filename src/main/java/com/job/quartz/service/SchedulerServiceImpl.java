@@ -58,6 +58,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
     public List<QrtzTriggers> getQrtzTriggers(String name, String group) {
+        log.info("# name=[{}], group=[{}]",name,group);
         QrtzTriggers qt = new QrtzTriggers();
         qt.setTriggerName(name);
         qt.setTriggerGroup(group);

@@ -1,11 +1,8 @@
 package com.job.biz;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.ServletException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -46,13 +43,15 @@ public class JobProcessController {
     /**
      * 进入查询控制台页面
      */
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String getQrtzTriggers(Model model) throws ServletException, IOException {
-        log.info("# 即将进入首页..");
-        List<QrtzTriggers> results = this.schedulerService.getQrtzTriggers(null, null);
+    @RequestMapping("/index")
+    public String getQrtzTriggers(Model model, @RequestParam(value = "triggerName", required = false) String triggerName, @RequestParam(value = "triggerGroup", required = false) String triggerGroup) {
+        log.info("# 查询任务列表:triggerName=[{}], triggerGroup=[{}]", triggerName, triggerGroup);
+        List<QrtzTriggers> results = this.schedulerService.getQrtzTriggers(triggerName, triggerGroup);
+        model.addAttribute("triggerName", triggerName);
+        model.addAttribute("triggerGroup", triggerGroup);
         model.addAttribute("list", results);
         model.addAttribute("servers", ServerBuilderContext.SERVERS.keySet());
-        return "job/index";
+        return "job/index.html";
     }
 
     /**
@@ -68,7 +67,7 @@ public class JobProcessController {
      */
     @ResponseBody
     @RequestMapping(value = "/trigger", method = RequestMethod.POST)
-    public Boolean trigger(@RequestParam("name") String name, @RequestParam("group") String group, @RequestParam("flag") Integer flag) {
+    public boolean trigger(@RequestParam("name") String name, @RequestParam("group") String group, @RequestParam("flag") Integer flag) {
         log.info("# name={} , group={} , flag={}", name, group, flag);
         boolean result = true;
         switch (flag) {
@@ -82,7 +81,7 @@ public class JobProcessController {
             result = schedulerService.removeTrigdger(name, group);
             break;
         }
-
+        log.info("# result=[{}]", result);
         return result;
     }
 
@@ -95,7 +94,7 @@ public class JobProcessController {
     public String toAdd(Model model) {
         model.addAttribute("servers", ServerBuilderContext.SERVERS.keySet());
         log.info("# 进入新增页面");
-        return "job/add";
+        return "job/add.no";
     }
 
     /**
@@ -130,8 +129,8 @@ public class JobProcessController {
                 break;
             case 3:
                 // 添加任务调试
-                log.info("# name={} , startTimie={} , endTime={} , repeatCount={} , repeatInterval={} , group={}", trigger.getTriggerName(), trigger.getStartTime(), trigger.getEndTime(), trigger.getRepeatCount(), trigger.getRepeatInterval(), trigger.getTriggerName());
-                schedulerService.schedule(trigger.getTriggerName(), trigger.getStartTime(), trigger.getEndTime(), trigger.getRepeatCount(), trigger.getRepeatInterval(), trigger.getTriggerName());
+                log.info("# name={} , startTimie={} , endTime={} , repeatCount={} , repeatInterval={} , group={}", trigger.getTriggerName(), trigger.getStartTime(), trigger.getEndTime(), trigger.getRepeatCount(), trigger.getRepeatInterval(), trigger.getTriggerGroup());
+                schedulerService.schedule(trigger.getTriggerName(), trigger.getStartTime(), trigger.getEndTime(), trigger.getRepeatCount(), trigger.getRepeatInterval(), trigger.getTriggerGroup());
                 // 指定时间执行模式
                 break;
             }
@@ -140,6 +139,6 @@ public class JobProcessController {
         } catch (Exception e) {
             log.error("# 新增trigger失败 , error message={}", e.getMessage());
         }
-        return "job/index";
+        return "redirect:/job/index";
     }
 }

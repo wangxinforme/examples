@@ -3,6 +3,9 @@ package com.job.biz.initialize;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.job.common.utils.ApplicationContextUtil;
 import com.job.quartz.service.SchedulerService;
 
@@ -16,6 +19,8 @@ public class InitializeServlet extends HttpServlet {
 
     private static final long serialVersionUID = -8652114793504953973L;
 
+    private static final Logger log = LoggerFactory.getLogger(InitializeServlet.class);
+
     /**
      * 
      * @Description 初始化JOB List
@@ -24,7 +29,8 @@ public class InitializeServlet extends HttpServlet {
     public void initialize() {
         SchedulerService schedulerService = ApplicationContextUtil.getBean("schedulerService", SchedulerService.class);
 
-        schedulerService.schedule("退款", "customerService", "0/4 * * ? * * *");
+        schedulerService.schedule("退款", "customerService", "0 0/30 * ? * * *");// 每30秒执行一次
+        // schedulerService.schedule("退款", "customerService", "0/5 * * ? * * *");//每30分钟执行一次
     }
 
     public InitializeServlet() {
@@ -33,7 +39,7 @@ public class InitializeServlet extends HttpServlet {
 
     @Override
     public void init(final ServletConfig config) {
-        System.out.println("启动成功后执行一次");
+        log.info("#初始化定时任务列表......");
         initialize();
     }
 

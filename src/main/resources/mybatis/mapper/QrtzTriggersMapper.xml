@@ -51,11 +51,11 @@
 		<include refid="find_xxx" />
 		<include refid="from_xxx" />
 		<include refid="where_xxx" />
-		<if test="triggerName != null and triggerName != null">
-			TRIGGER_NAME like '%'||#{triggerName}||'%'
+		<if test="triggerName != null and triggerName != ''">
+			AND TRIGGER_NAME LIKE '%${triggerName}%'
 		</if>
-		<if test="triggerGroup != null and triggerGroup != null">
-			TRIGGER_GROUP like '%'||#{triggerGroup}||'%'
+		<if test="triggerGroup != null and triggerGroup != ''">
+			AND TRIGGER_GROUP LIKE'%${triggerGroup}%'
 		</if>
 	</select>
 

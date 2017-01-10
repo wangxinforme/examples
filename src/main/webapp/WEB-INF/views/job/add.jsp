@@ -62,7 +62,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" action="${ctx }/add" method="post" id="cronExpressionForm">
+									<form class="form-horizontal" role="form" action="${ctx }/job/add" method="post" id="cronExpressionForm">
 										<input type="hidden" name="triggerType" value="1" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -100,7 +100,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" action="${ctx }/add" method="post" id="frequencyForm">
+									<form class="form-horizontal" role="form" action="${ctx }/job/add" method="post" id="frequencyForm">
 										<input type="hidden" name="triggerType" value="2" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -147,7 +147,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-8">
-									<form class="form-horizontal" role="form" action="${ctx }/add" method="post" id="timeForm">
+									<form class="form-horizontal" role="form" action="${ctx }/job/add" method="post" id="timeForm">
 										<input type="hidden" name="triggerType" value="3" />
 										<div class="form-group">
 											<label for="triggerName" class="col-sm-2 control-label">Trigger名称</label>
@@ -212,16 +212,15 @@
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="${ctx}/static/jquery/jquery-3.1.0.min.js?${version_js}"></script>
-	<script src="${ctx}/static/jquery/ui/jquery-ui.min.js?${version_js}"></script>
+	<script src="${ctx}/static/jquery/ui/jquery-ui.js?${version_js}"></script>
 	<script src="${ctx}/static/jquery/ui/jquery-ui-timepicker-addon.js?${version_js}"></script>
 
 	<script src="${ctx}/static/bootstrap/js/bootstrap.min.js?${version_js}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="${ctx}/static/bootstrap/js/ie10-viewport-bug-workaround.js?${version_js}"></script>
 	<script type="text/javascript">
-    var _ctx = "${ctx}";
     var currentPage = "add";
   </script>
-	<script src="${ctx}/static/js/job.js?${version_js}"></script>
+	<script src="${ctx}/static/js/job/job.js?${version_js}"></script>
 </body>
 </html>
