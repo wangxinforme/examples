@@ -2,7 +2,7 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<display-name>job-console</display-name>
+	<display-name>examples</display-name>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -12,8 +12,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath*:spring/applicationContext.xml,
-			classpath*:spring/applicationContext-dao.xml,
-			classpath*:spring/applicationContext-quartz.xml
+			classpath*:spring/applicationContext-dao.xml
 		</param-value>
 	</context-param>
 
@@ -52,12 +51,6 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>initializeServlet</servlet-name>
-		<servlet-class>com.job.biz.initialize.InitializeServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-
 	<session-config>
 		<session-timeout>30</session-timeout>
 		<tracking-mode>COOKIE</tracking-mode>
@@ -72,10 +65,6 @@
 		<error-code>404</error-code>
 		<location>/404</location>
 	</error-page>
-
-	<welcome-file-list>
-		<welcome-file>job/index.html</welcome-file>
-	</welcome-file-list>
 
 </web-app>
 
