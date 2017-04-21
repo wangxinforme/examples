@@ -10,7 +10,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wangxin.common.db.table.Key;
+import com.wangxin.common.framework.datasource.DataSourceEnum;
+import com.wangxin.common.framework.datasource.DataSourceRouter;
+import com.wangxin.common.framework.key.entity.Key;
 import com.wangxin.mapper.key.KeyMapper;
 import com.wangxin.service.key.KeyService;
 
@@ -29,8 +31,9 @@ public class KeyServiceImpl implements KeyService {
         this.keyMapper = keyMapper;
     }
 
+    @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public List<Key> getTableValues(List<Key> keys) {
+    public List<Key> getMasterTableValues(List<Key> keys) {
         List<Key> keyList = new ArrayList<Key>();
         try {
             keyList = keyMapper.getTableValues(keys);
@@ -40,11 +43,36 @@ public class KeyServiceImpl implements KeyService {
         return keyList;
     }
 
+    @DataSourceRouter(DataSourceEnum.slave)
     @Override
-    public List<Key> getTables() {
+    public List<Key> getSlaveTableValues(List<Key> keys) {
         List<Key> keyList = new ArrayList<Key>();
         try {
-            keyList = keyMapper.getTables();
+            keyList = keyMapper.getTableValues(keys);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return keyList;
+    }
+
+    @DataSourceRouter(DataSourceEnum.master)
+    @Override
+    public List<Key> getMasterTables() {
+        List<Key> keyList = new ArrayList<Key>();
+        try {
+            keyList = keyMapper.getTablesBySQLite();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return keyList;
+    }
+
+    @DataSourceRouter(DataSourceEnum.slave)
+    @Override
+    public List<Key> getSlaveTables() {
+        List<Key> keyList = new ArrayList<Key>();
+        try {
+            keyList = keyMapper.getTablesBySQLite();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,6 +16,7 @@
 <meta name="copyright" content="胡桃夹子。All Rights Reserved">
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="${ctx}/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 <link href="${ctx}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 <link href="${ctx}/static/css/plugins/iCheck/green.css" rel="stylesheet">
 <link href="${ctx}/static/css/animate.css" rel="stylesheet">
@@ -77,10 +78,10 @@
 			<!--------当前位置----->
 			<div class="row  border-bottom white-bg page-heading">
 				<div class="col-sm-4">
-					<br/>
+					<br />
 					<ol class="breadcrumb">
-						<li><a href="javascript:void(0)">站内新闻</a></li>
-						<li class="active">新闻列表</li>
+						<li><a href="javascript:void(0)">多数据库测试</a></li>
+						<li class="active">查询从数据库</li>
 
 					</ol>
 				</div>
@@ -100,7 +101,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="ibox" id="ibox">
-							<jsp:include page="./list_page.jsp" />
+							<jsp:include page="./slave_list_page.jsp" />
 						</div>
 					</div>
 				</div>
@@ -147,6 +148,7 @@
 	<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<!-- 插件 scripts -->
+	<script src="${ctx}/static/js/plugins/sweetalert/sweetalert.min.js" async></script><!---对话框 alert--->
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js" async></script>
 	<!---顶部弹出提示--->
 	<script src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script>
@@ -180,12 +182,14 @@
       // 分页查询
       function list_page() {
         var keywords = $("#keywords").val();
-        $("#ibox").load(_ctx + '/news/list_page',{"keywords":keywords});
+        $("#ibox").load(_ctx + '/news/slave/list_page', {
+          "keywords": keywords
+        });
       }
 
       function editForm(form) {
         $.ajax({
-          url: _ctx + "/news/edit",
+          url: _ctx + "/news/slave/edit",
           type: "post",
           data: $(form).serialize(),
           success: function(data) {
@@ -206,8 +210,43 @@
       $("#edit").on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var id = button.data("id");
-        $("#newsForm").load(_ctx + '/news/load/' + id);//加载待编辑数据
+        $("#newsForm").load(_ctx + '/news/slave/load/' + id);//加载待编辑数据
       });
+      
+      //删除数据
+      $('#editable-sample button.delete').on('click', function () {
+          var row=$(this).parents("tr")[0];
+          var newsid=$(this).data("id");
+              swal({
+                  title: "您确定要删除吗?",
+                  text: "用户账户删除后将不可恢复!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#1ab394",
+                  confirmButtonText: "确定删除！",
+                  closeOnConfirm: false
+              }, function () {
+                row.className="animated bounceOut";
+                $.ajax({
+                  url: _ctx + "/news/slave/delete/"+newsid,
+                  type: "get",
+                  success: function(data) {
+                    if (data.status == '1') {
+                      row.parentNode.removeChild(row);
+                      swal("删除成功!", data.msg,"success");
+                    } else{
+                      row.className="animated fadeInLeft";
+                      swal("删除失败!", data.msg,"error");
+                    }
+                  },
+                  error: function(data) {
+                    row.className="animated fadeInLeft";
+                    swal("删除失败!", "newsid="+newsid+" 删除失败！","error");
+                  }
+                });
+              });
+      });
+      
     });
   </script>
 </body>

@@ -13,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wangxin.common.constants.Constants;
-import com.wangxin.common.db.table.FactoryAboutKey;
-import com.wangxin.common.db.table.TablesPKEnum;
-import com.wangxin.common.exception.BusinessException;
+import com.wangxin.common.framework.datasource.DataSourceEnum;
+import com.wangxin.common.framework.datasource.DataSourceRouter;
+import com.wangxin.common.framework.key.FactoryAboutKey;
+import com.wangxin.common.framework.key.table.MasterTablesEnum;
+import com.wangxin.common.framework.key.table.SlaveTablesEnum;
 import com.wangxin.entity.simple.News;
 import com.wangxin.mapper.simple.NewsMapper;
 import com.wangxin.service.simple.NewsService;
@@ -33,15 +35,16 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private NewsMapper newsMapper;
 
+    // ---- master
+
+    @DataSourceRouter(DataSourceEnum.master)
     @Transactional
     @Override
-    public boolean addNews(News news) {
+    public boolean addMasterNews(News news) {
         if (news != null) {
-            news.setId(FactoryAboutKey.getPK(TablesPKEnum.T_NEWS));
+            news.setId(FactoryAboutKey.getPkByMasterDB(MasterTablesEnum.T_NEWS));
             news.setCreateTime(Calendar.getInstance().getTime());
             int flag = newsMapper.insert(news);
-            if (StringUtils.equals(news.getTitle(), "a"))
-                throw new BusinessException("001", "测试事务回溯");
             if (flag == 1)
                 return true;
             else
@@ -50,8 +53,9 @@ public class NewsServiceImpl implements NewsService {
             return false;
     }
 
+    @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public boolean editNews(News news) {
+    public boolean editMasterNews(News news) {
         if (news != null && StringUtils.isNotBlank(news.getId())) {
             int flag = newsMapper.update(news);
             if (flag == 1)
@@ -62,34 +66,103 @@ public class NewsServiceImpl implements NewsService {
             return false;
     }
 
+    @Transactional
+    @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public News findNewsById(String id) {
+    public boolean deleteMasterNewsById(String id) {
+        if (StringUtils.isNotBlank(id)) {
+            int flag = newsMapper.delete(id);
+            if (flag == 1)
+                return true;
+            else
+                return false;
+        } else
+            return false;
+    }
+
+    @DataSourceRouter(DataSourceEnum.master)
+    @Override
+    public News findMasterNewsById(String id) {
         if (StringUtils.isBlank(id))
             return null;
         else
             return newsMapper.findById(id);
     }
 
-    // 默认数据库
+    @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public List<News> findNewsByKeywords(String keywords) {
-        log.info("# 查询默认数据库");
-        return newsMapper.findNewsByKeywords(keywords);
-    }
-
-    @Override
-    public PageInfo<News> findNewsByPage(Integer pageNum, String keywords) {
-        // request: url?pageNum=1&pageSize=10
-        // 支持 ServletRequest,Map,POJO 对象，需要配合 params 参数
+    public PageInfo<News> findMasterNewsByPage(Integer pageNum, String keywords) {
         if (pageNum == null)
             pageNum = 1;
         PageHelper.startPage(pageNum, Constants.PAGE_SIZE);
-        // 紧跟着的第一个select方法会被分页
         List<News> news = newsMapper.findNewsByPage(keywords);
-        // 用PageInfo对结果进行包装
         PageInfo<News> page = new PageInfo<News>(news);
-        // 测试PageInfo全部属性
-        // PageInfo包含了非常全面的分页属性
+        log.info("# 查询默认数据库 page.toString()={}", page.toString());
+        return page;
+    }
+
+    // ---- slave
+
+    @DataSourceRouter(DataSourceEnum.slave)
+    @Transactional
+    @Override
+    public boolean addSlaveNews(News news) {
+        if (news != null) {
+            news.setId(FactoryAboutKey.getPkBySlaveDB(SlaveTablesEnum.T_NEWS));
+            news.setCreateTime(Calendar.getInstance().getTime());
+            int flag = newsMapper.insert(news);
+            if (flag == 1)
+                return true;
+            else
+                return false;
+        } else
+            return false;
+    }
+
+    @DataSourceRouter(DataSourceEnum.slave)
+    @Override
+    public boolean editSlaveNews(News news) {
+        if (news != null && StringUtils.isNotBlank(news.getId())) {
+            int flag = newsMapper.update(news);
+            if (flag == 1)
+                return true;
+            else
+                return false;
+        } else
+            return false;
+    }
+
+    @Transactional
+    @DataSourceRouter(DataSourceEnum.slave)
+    @Override
+    public boolean deleteSlaveNewById(String id) {
+        if (StringUtils.isNotBlank(id)) {
+            int flag = newsMapper.delete(id);
+            if (flag == 1)
+                return true;
+            else
+                return false;
+        } else
+            return false;
+    }
+
+    @DataSourceRouter(DataSourceEnum.slave)
+    @Override
+    public News findSlaveNewsById(String id) {
+        if (StringUtils.isBlank(id))
+            return null;
+        else
+            return newsMapper.findById(id);
+    }
+
+    @DataSourceRouter(DataSourceEnum.slave)
+    @Override
+    public PageInfo<News> findSlaveNewsByPage(Integer pageNum, String keywords) {
+        if (pageNum == null)
+            pageNum = 1;
+        PageHelper.startPage(pageNum, Constants.PAGE_SIZE);
+        List<News> news = newsMapper.findNewsByPage(keywords);
+        PageInfo<News> page = new PageInfo<News>(news);
         log.info("# 查询默认数据库 page.toString()={}", page.toString());
         return page;
     }

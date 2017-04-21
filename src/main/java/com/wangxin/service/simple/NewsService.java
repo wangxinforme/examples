@@ -1,7 +1,5 @@
 package com.wangxin.service.simple;
 
-import java.util.List;
-
 import com.github.pagehelper.PageInfo;
 import com.wangxin.entity.simple.News;
 
@@ -11,13 +9,27 @@ import com.wangxin.entity.simple.News;
  * @date Mar 16, 2017 5:19:14 PM  
  */
 public interface NewsService {
-    public boolean addNews(News news);
 
-    public boolean editNews(News news);
+    // ---- master
+    public boolean addMasterNews(News news);
 
-    public News findNewsById(String newsId);
+    public boolean editMasterNews(News news);
 
-    public List<News> findNewsByKeywords(String keywords);
+    public boolean deleteMasterNewsById(String id);
 
-    public PageInfo<News> findNewsByPage(Integer pageNum, String keywords);
+    public News findMasterNewsById(String newsId);
+
+    public PageInfo<News> findMasterNewsByPage(Integer pageNum, String keywords);
+
+    // ---- slave
+    public boolean addSlaveNews(News news);
+
+    public boolean editSlaveNews(News news);
+
+    public boolean deleteSlaveNewById(String id);
+
+    public News findSlaveNewsById(String newsId);
+
+    public PageInfo<News> findSlaveNewsByPage(Integer pageNum, String keywords);
+
 }

@@ -17,7 +17,6 @@ import com.wangxin.service.simple.NewsService;
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml", "classpath:/spring/applicationContext-dao.xml" })
 public class NewsServiceTest {
 
-    
     private static final Logger log = LoggerFactory.getLogger(NewsServiceTest.class);
 
     @Autowired
@@ -27,13 +26,22 @@ public class NewsServiceTest {
     public void addNews() {
         log.info("# 生成测试数据");
         News news = null;
-        for (int i = 1; i < 1001; i++) {
+        for (int i = 1; i < 91; i++) {
             news = new News();
-            news.setTitle("news_" + i);
-            news.setDescription("news_" + i);
-            news.setAddress("news_" + i);
+            news.setTitle("master_" + i);
+            news.setDescription("master_" + i);
+            news.setAddress("master_" + i);
             news.setNewsTime(Calendar.getInstance().getTime());
-            newsService.addNews(news);
+            newsService.addMasterNews(news);
+        }
+
+        for (int i = 1; i < 91; i++) {
+            news = new News();
+            news.setTitle("slave_" + i);
+            news.setDescription("slave_" + i);
+            news.setAddress("slave_" + i);
+            news.setNewsTime(Calendar.getInstance().getTime());
+            newsService.addSlaveNews(news);
         }
 
     }

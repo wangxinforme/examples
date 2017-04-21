@@ -6,25 +6,66 @@
 
 	<util:properties id="p_datasource" location="classpath:/config/jdbc.properties" />
 
-	<!-- quartz数据源，使用alibaba druid连接池 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-		<property name="url" value="#{p_datasource['db.url']}" />
-		<property name="username" value="#{p_datasource['db.username']}" />
-		<property name="password" value="#{p_datasource['db.password']}" />
-		<property name="driverClassName" value="#{p_datasource['db.driverClassName']}" />
-		<property name="initialSize" value="#{p_datasource['db.initialSize']}" />
-		<property name="maxActive" value="#{p_datasource['db.maxActive']}" />
-		<property name="minIdle" value="#{p_datasource['db.minIdle']}" />
-		<property name="maxWait" value="#{p_datasource['db.maxWait']}" />
-		<property name="useUnfairLock" value="#{p_datasource['db.useUnfairLock']}" />
-		<property name="validationQuery" value="#{p_datasource['db.validationQuery']}" />
-		<property name="testOnBorrow" value="#{p_datasource['db.testOnBorrow']}" />
-		<property name="testOnReturn" value="#{p_datasource['db.testOnReturn']}" />
-		<property name="testWhileIdle" value="#{p_datasource['db.testWhileIdle']}" />
-		<property name="timeBetweenEvictionRunsMillis" value="#{p_datasource['db.timeBetweenEvictionRunsMillis']}" />
-		<property name="minEvictableIdleTimeMillis" value="#{p_datasource['db.minEvictableIdleTimeMillis']}" />
-		<property name="filters" value="#{p_datasource['db.filters']}" />
+	<!-- 数据源master，使用alibaba druid连接池 -->
+	<bean id="masterSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="#{p_datasource['master.datasource.url']}" />
+		<property name="username" value="#{p_datasource['master.datasource.username']}" />
+		<property name="password" value="#{p_datasource['master.datasource.password']}" />
+		<property name="driverClassName" value="#{p_datasource['master.datasource.driverClassName']}" />
+		<property name="validationQuery" value="#{p_datasource['master.datasource.validationQuery']}" />
+
+		<property name="initialSize" value="#{p_datasource['druid.datasource.initialSize']}" />
+		<property name="maxActive" value="#{p_datasource['druid.datasource.maxActive']}" />
+		<property name="minIdle" value="#{p_datasource['druid.datasource.minIdle']}" />
+		<property name="maxWait" value="#{p_datasource['druid.datasource.maxWait']}" />
+		<property name="useUnfairLock" value="#{p_datasource['druid.datasource.useUnfairLock']}" />
+		<property name="testOnBorrow" value="#{p_datasource['druid.datasource.testOnBorrow']}" />
+		<property name="testOnReturn" value="#{p_datasource['druid.datasource.testOnReturn']}" />
+		<property name="testWhileIdle" value="#{p_datasource['druid.datasource.testWhileIdle']}" />
+		<property name="timeBetweenEvictionRunsMillis" value="#{p_datasource['druid.datasource.timeBetweenEvictionRunsMillis']}" />
+		<property name="minEvictableIdleTimeMillis" value="#{p_datasource['druid.datasource.minEvictableIdleTimeMillis']}" />
+		<property name="filters" value="#{p_datasource['druid.datasource.filters']}" />
 	</bean>
+
+	<!-- 数据源slave，使用alibaba druid连接池 -->
+	<bean id="slaveSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="#{p_datasource['slave.datasource.url']}" />
+		<property name="username" value="#{p_datasource['slave.datasource.username']}" />
+		<property name="password" value="#{p_datasource['slave.datasource.password']}" />
+		<property name="driverClassName" value="#{p_datasource['slave.datasource.driverClassName']}" />
+		<property name="validationQuery" value="#{p_datasource['slave.datasource.validationQuery']}" />
+
+		<property name="initialSize" value="#{p_datasource['druid.datasource.initialSize']}" />
+		<property name="maxActive" value="#{p_datasource['druid.datasource.maxActive']}" />
+		<property name="minIdle" value="#{p_datasource['druid.datasource.minIdle']}" />
+		<property name="maxWait" value="#{p_datasource['druid.datasource.maxWait']}" />
+		<property name="useUnfairLock" value="#{p_datasource['druid.datasource.useUnfairLock']}" />
+		<property name="testOnBorrow" value="#{p_datasource['druid.datasource.testOnBorrow']}" />
+		<property name="testOnReturn" value="#{p_datasource['druid.datasource.testOnReturn']}" />
+		<property name="testWhileIdle" value="#{p_datasource['druid.datasource.testWhileIdle']}" />
+		<property name="timeBetweenEvictionRunsMillis" value="#{p_datasource['druid.datasource.timeBetweenEvictionRunsMillis']}" />
+		<property name="minEvictableIdleTimeMillis" value="#{p_datasource['druid.datasource.minEvictableIdleTimeMillis']}" />
+		<property name="filters" value="#{p_datasource['druid.datasource.filters']}" />
+	</bean>
+
+	<bean id="dataSource" class="com.wangxin.common.framework.datasource.DBRoutingDataSource">
+		<property name="defaultTargetDataSource" ref="slaveSource" />
+		<property name="targetDataSources">
+			<map key-type="com.wangxin.common.framework.datasource.DataSourceEnum"><!-- 数据源枚举 -->
+				<entry key="master" value-ref="masterSource" />
+				<entry key="slave" value-ref="slaveSource" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="dataSourceAspect" class="com.wangxin.common.framework.datasource.DetermineAspect" />
+
+	<aop:config>
+		<aop:aspect order="1" ref="dataSourceAspect">
+			<aop:pointcut id="dsPointCut" expression="execution(* com.wangxin..*Service.*(..))" />
+			<aop:before pointcut-ref="dsPointCut" method="before" />
+		</aop:aspect>
+	</aop:config>
 
 	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />

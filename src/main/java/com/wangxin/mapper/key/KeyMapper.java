@@ -2,7 +2,7 @@ package com.wangxin.mapper.key;
 
 import java.util.List;
 
-import com.wangxin.common.db.table.Key;
+import com.wangxin.common.framework.key.entity.Key;
 
 public interface KeyMapper {
 
@@ -14,6 +14,16 @@ public interface KeyMapper {
     /**
      * @return 返回key集合(只存储表名)
      */
-    public List<Key> getTables();
+    public List<Key> getTablesByOracle();
+    
+    /**
+     * @return 返回key集合(只存储表名)
+     */
+    public List<Key> getTablesByMySQL();
+    
+    /**
+     * @return 返回key集合(只存储表名)
+     */
+    public List<Key> getTablesBySQLite();
 
 }

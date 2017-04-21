@@ -1,4 +1,4 @@
-package com.wangxin.common.db.table;
+package com.wangxin.common.framework.key.entity;
 
 import java.io.Serializable;
 

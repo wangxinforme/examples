@@ -41,9 +41,10 @@
 			<!--------当前位置----->
 			<div class="row  border-bottom white-bg page-heading">
 				<div class="col-sm-4">
+					<br/>
 					<ol class="breadcrumb">
-						<li>站内新闻</li>
-						<li class="active">发布新闻</li>
+						<li>多数据库测试</li>
+						<li class="active">从数据库新增</li>
 					</ol>
 				</div>
 			</div>
@@ -153,13 +154,13 @@
       });
       function addform(form) {
         $.ajax({
-          url: _ctx + "/news/add",
+          url: _ctx + "/news/slave/add",
           type: "post",
           data: $(form).serialize(),
           success: function(data) {
             if (data.status == '1') {
               toastr.success('', data.msg);
-              window.location.href=_ctx+"/news/list"; 
+              window.location.href=_ctx+"/news/slave/list"; 
             } else
               toastr.error('', data.msg);
           },

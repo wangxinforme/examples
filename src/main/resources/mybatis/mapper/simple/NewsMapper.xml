@@ -42,14 +42,6 @@
 		]]>
 	</select>
 
-	<select id="findNewsByKeywords" parameterType="string" resultMap="newsMap">
-		<include refid="find_xxx" />
-		<include refid="from_xxx" />
-		<where>
-			<if test="keywords != null and keywords != ''"> title like '%${keywords}%'</if>
-		</where>
-	</select>
-
 	<select id="findNewsByPage" parameterType="string" resultMap="newsMap">
 		<include refid="find_xxx" />
 		<include refid="from_xxx" />
@@ -82,7 +74,7 @@
 	</update>
 
 	<delete id="delete" parameterType="string">
-		DELETE FROM T_NEWS WHERE ID #{id}
+		DELETE FROM T_NEWS WHERE ID = #{id}
 	</delete>
 
 </mapper>

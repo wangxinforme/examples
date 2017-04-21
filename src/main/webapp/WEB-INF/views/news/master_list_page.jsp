@@ -31,6 +31,9 @@
 									<button class="btn btn-white btn-sm edit" data-id="${n.id }" data-toggle="modal" data-target="#edit">
 										<i class="fa fa-pencil"></i> 编辑
 									</button>
+									<button class="btn-white  btn btn-sm delete" data-id="${n.id }">
+										<i class="fa fa-trash"></i> 删除
+									</button>
 								</div>
 							</td>
 						</tr>
@@ -39,9 +42,9 @@
 			</tbody>
 		</table>
 	</div>
-	
+
 	<!-- 分页表单 -->
-	<form action="${ctx }/news/list_page" id="newsPageForm">
+	<form action="${ctx }/news/master/list_page" id="newsPageForm">
 		<!-- 查询条件，用隐藏表单域 -->
 		<input type="hidden" value="${keywords }" name="keywords" />
 

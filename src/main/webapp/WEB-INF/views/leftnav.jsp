@@ -21,10 +21,12 @@
 			</div>
 		</div>
 		<ul class="nav metismenu" id="side-menu">
-			<li><a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">站内新闻 </span><span class="fa arrow"></span></a>
+			<li><a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">多数据库测试 </span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="${ctx }/news/add"><span class="nav-label">新闻发布</span></a></li>
-					<li><a href="${ctx }/news/list"><span class="nav-label">新闻列表</span></a></li>
+					<li><a href="${ctx }/news/master/add"><span class="nav-label">主数据库新增</span></a></li>
+					<li><a href="${ctx }/news/master/list"><span class="nav-label">查询主数据库</span></a></li>
+					<li><a href="${ctx }/news/slave/add"><span class="nav-label">从数据库新增</span></a></li>
+					<li><a href="${ctx }/news/slave/list"><span class="nav-label">查询从数据库</span></a></li>
 				</ul></li>
 		</ul>
 	</div>
