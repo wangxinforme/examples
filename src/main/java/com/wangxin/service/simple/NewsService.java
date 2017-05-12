@@ -11,15 +11,15 @@ import com.wangxin.entity.simple.News;
 public interface NewsService {
 
     // ---- master
-    public boolean addMasterNews(News news);
+    public boolean addNews(News news);
 
-    public boolean editMasterNews(News news);
+    public boolean editNews(News news);
 
-    public boolean deleteMasterNewsById(String id);
+    public boolean deleteNewsById(String id);
 
-    public News findMasterNewsById(String newsId);
+    public News findNewsById(String newsId);
 
-    public PageInfo<News> findMasterNewsByPage(Integer pageNum, String keywords);
+    public PageInfo<News> findNewsByPage(Integer pageNum, String keywords);
 
     // ---- slave
     public boolean addSlaveNews(News news);

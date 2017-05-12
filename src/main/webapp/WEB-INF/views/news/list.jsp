@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +10,6 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="renderer" content="webkit">
-<meta name="Author" content="zifan">
 <meta name="copyright" content="胡桃夹子。All Rights Reserved">
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -33,55 +30,17 @@
 		<div id="page-wrapper" class="gray-bg">
 			<!---顶部状态栏 star-->
 			<div class="row ">
-				<nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-					<div class="navbar-header">
-						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-					</div>
-					<ul class="nav navbar-top-links navbar-right notification-menu">
-						<li><span class="m-r-sm text-muted welcome-message">Welcome to Wuling Admin WebSite.</span></li>
-
-						<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#"> <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
-						</a>
-							<div class="dropdown-menu dropdown-menu-head pull-right">
-								<h5 class="title">You have 5 Mails</h5>
-								<ul class="dropdown-list normal-list">
-									<li class="new"><a href=""> <span class="thumb"><img src="${ctx}/static/images/photos/user1.png" alt=""></span> <span class="desc"> <span class="name">John Doe <span class="badge badge-success">new</span></span> <span
-												class="msg">Lorem ipsum dolor sit amet...</span>
-										</span>
-									</a></li>
-									<li class="new"><a href="">Read All Mails</a></li>
-								</ul>
-							</div></li>
-						<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#"> <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
-						</a>
-							<div class="dropdown-menu dropdown-menu-head pull-right">
-								<h5 class="title">Notifications</h5>
-								<ul class="dropdown-list normal-list">
-									<li class="new"><a href=""> <span class="label label-danger"><i class="fa fa-bolt"></i></span> <span class="name">Server #1 overloaded. </span> <em class="small">34 mins</em>
-									</a></li>
-									<li class="new"><a href="">See All Notifications</a></li>
-								</ul>
-							</div></li>
-
-						<li class="user-dropdown"><a href="#" class="btn  dropdown-toggle" data-toggle="dropdown"> <img src="${ctx}/static/images/photos/user-avatar.png" alt="" width="20"> 羊羊案场经理 <span class="caret"></span>
-						</a>
-							<ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-								<li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-								<li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-								<li><a href="#"><i class="fa fa-sign-out"></i> Log Out</a></li>
-							</ul></li>
-					</ul>
-				</nav>
+				<nav class="navbar navbar-fixed-top" role="navigation" id="topnav"></nav>
 			</div>
 			<!---顶部状态栏 end-->
 
 			<!--------当前位置----->
 			<div class="row  border-bottom white-bg page-heading">
 				<div class="col-sm-4">
-					<br />
+					<br/>
 					<ol class="breadcrumb">
 						<li><a href="javascript:void(0)">多数据库测试</a></li>
-						<li class="active">查询从数据库</li>
+						<li class="active">查询主数据库</li>
 
 					</ol>
 				</div>
@@ -101,7 +60,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="ibox" id="ibox">
-							<jsp:include page="./slave_list_page.jsp" />
+							<jsp:include page="./list_page.jsp" />
 						</div>
 					</div>
 				</div>
@@ -147,8 +106,8 @@
 
 	<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<!-- 插件 scripts -->
 	<script src="${ctx}/static/js/plugins/sweetalert/sweetalert.min.js" async></script><!---对话框 alert--->
+	<!-- 插件 scripts -->
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js" async></script>
 	<!---顶部弹出提示--->
 	<script src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script>
@@ -182,14 +141,12 @@
       // 分页查询
       function list_page() {
         var keywords = $("#keywords").val();
-        $("#ibox").load(_ctx + '/news/slave/list_page', {
-          "keywords": keywords
-        });
+        $("#ibox").load(_ctx + '/news/list_page',{"keywords":keywords});
       }
 
       function editForm(form) {
         $.ajax({
-          url: _ctx + "/news/slave/edit",
+          url: _ctx + "/news/edit",
           type: "post",
           data: $(form).serialize(),
           success: function(data) {
@@ -210,10 +167,12 @@
       $("#edit").on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var id = button.data("id");
-        $("#newsForm").load(_ctx + '/news/slave/load/' + id);//加载待编辑数据
+        $("#newsForm").load(_ctx + '/news/load/' + id);//加载待编辑数据
       });
       
-      //删除数据
+      
+      
+     //删除数据
       $('#editable-sample button.delete').on('click', function () {
           var row=$(this).parents("tr")[0];
           var newsid=$(this).data("id");
@@ -226,26 +185,28 @@
                   confirmButtonText: "确定删除！",
                   closeOnConfirm: false
               }, function () {
-                row.className="animated bounceOut";
-                $.ajax({
-                  url: _ctx + "/news/slave/delete/"+newsid,
-                  type: "get",
-                  success: function(data) {
-                    if (data.status == '1') {
-                      row.parentNode.removeChild(row);
-                      swal("删除成功!", data.msg,"success");
-                    } else{
+                  row.className="animated bounceOut";
+                  $.ajax({
+                    url: _ctx + "/news/delete/"+newsid,
+                    type: "get",
+                    success: function(data) {
+                      if (data.status == '1') {
+                        row.parentNode.removeChild(row);
+                        swal("删除成功!", data.msg,"success");
+                      } else{
+                        row.className="animated fadeInLeft";
+                        swal("删除失败!", data.msg,"error");
+                      }
+                    },
+                    error: function(data) {
                       row.className="animated fadeInLeft";
-                      swal("删除失败!", data.msg,"error");
+                      swal("删除失败!", "newsid="+newsid+" 删除失败！","error");
                     }
-                  },
-                  error: function(data) {
-                    row.className="animated fadeInLeft";
-                    swal("删除失败!", "newsid="+newsid+" 删除失败！","error");
-                  }
-                });
+                  });
               });
       });
+      
+      
       
     });
   </script>

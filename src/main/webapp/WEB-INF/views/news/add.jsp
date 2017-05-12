@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +10,6 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="renderer" content="webkit">
-<meta name="Author" content="zifan">
 <meta name="copyright" content="胡桃夹子。All Rights Reserved">
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -44,7 +41,7 @@
 					<br/>
 					<ol class="breadcrumb">
 						<li>多数据库测试</li>
-						<li class="active">从数据库新增</li>
+						<li class="active">主数据库新增</li>
 					</ol>
 				</div>
 			</div>
@@ -154,13 +151,13 @@
       });
       function addform(form) {
         $.ajax({
-          url: _ctx + "/news/slave/add",
+          url: _ctx + "/news/add",
           type: "post",
           data: $(form).serialize(),
           success: function(data) {
             if (data.status == '1') {
               toastr.success('', data.msg);
-              window.location.href=_ctx+"/news/slave/list"; 
+              window.location.href=_ctx+"/news/list"; 
             } else
               toastr.error('', data.msg);
           },

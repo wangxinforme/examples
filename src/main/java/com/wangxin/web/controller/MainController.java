@@ -20,7 +20,7 @@ public class MainController {
     @RequestMapping(value = { "/", "index" })
     String home() {
         log.info("# 进入默认首页");
-        return "redirect:news/master/list";
+        return "redirect:news/list";
     }
 
     @RequestMapping(value = "leftnav", method = RequestMethod.GET)

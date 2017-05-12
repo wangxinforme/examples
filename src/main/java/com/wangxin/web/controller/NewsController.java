@@ -47,16 +47,16 @@ public class NewsController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    @RequestMapping(value = "/news/master/add", method = RequestMethod.GET)
-    public String master_add() {
+    @RequestMapping(value = "/news/add", method = RequestMethod.GET)
+    public String add() {
         log.info("# 进入发布新闻页面");
-        return "news/master_add";
+        return "news/add";
     }
 
-    @RequestMapping(value = "/news/master/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/news/add", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> master_add(@ModelAttribute("newsForm") News news) {
-        boolean flag = newsService.addMasterNews(news);
+    public Map<String, String> add(@ModelAttribute("newsForm") News news) {
+        boolean flag = newsService.addNews(news);
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
@@ -68,18 +68,18 @@ public class NewsController {
         return result;
     }
 
-    @RequestMapping(value = "/news/master/load/{id}", method = RequestMethod.GET)
-    public String master_load(@PathVariable String id, ModelMap map) {
+    @RequestMapping(value = "/news/load/{id}", method = RequestMethod.GET)
+    public String load(@PathVariable String id, ModelMap map) {
         log.info("# ajax加载新闻对象");
-        News news = newsService.findMasterNewsById(id);
+        News news = newsService.findNewsById(id);
         map.addAttribute("news", news);
         return "news/edit_form";
     }
 
-    @RequestMapping(value = "/news/master/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/news/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> master_edit(@ModelAttribute("newsForm") News news) {
-        boolean flag = newsService.editMasterNews(news);
+    public Map<String, String> edit(@ModelAttribute("newsForm") News news) {
+        boolean flag = newsService.editNews(news);
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
@@ -91,10 +91,10 @@ public class NewsController {
         return result;
     }
 
-    @RequestMapping(value = "/news/master/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/news/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, String> master_delte(@PathVariable String id) {
-        boolean flag = newsService.deleteMasterNewsById(id);
+    public Map<String, String> delte(@PathVariable String id) {
+        boolean flag = newsService.deleteNewsById(id);
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
@@ -106,95 +106,20 @@ public class NewsController {
         return result;
     }
 
-    @RequestMapping(value = "/news/master/list", method = RequestMethod.GET)
-    public String master_list(ModelMap map) {
-        PageInfo<News> page = newsService.findMasterNewsByPage(null, null);
+    @RequestMapping(value = "/news/list", method = RequestMethod.GET)
+    public String list(ModelMap map) {
+        PageInfo<News> page = newsService.findNewsByPage(null, null);
         map.put("page", page);
-        return "news/master_list";
+        return "news/list";
     }
 
-    @RequestMapping(value = "/news/master/list_page", method = RequestMethod.POST)
-    public String master_list_page(@RequestParam(value = "keywords", required = false) String keywords, @RequestParam(value = "pageNum", required = false) Integer pageNum, ModelMap map) {
+    @RequestMapping(value = "/news/list_page", method = RequestMethod.POST)
+    public String list_page(@RequestParam(value = "keywords", required = false) String keywords, @RequestParam(value = "pageNum", required = false) Integer pageNum, ModelMap map) {
         log.info("#分页查询新闻 pageNum={} , keywords={}", pageNum, keywords);
-        PageInfo<News> page = newsService.findMasterNewsByPage(pageNum, keywords);
+        PageInfo<News> page = newsService.findNewsByPage(pageNum, keywords);
         map.put("page", page);
         map.put("keywords", keywords);
-        return "news/master_list_page";
-    }
-
-    @RequestMapping(value = "/news/slave/add", method = RequestMethod.GET)
-    public String slave_add() {
-        log.info("# 进入发布新闻页面");
-        return "news/slave_add";
-    }
-
-    @RequestMapping(value = "/news/slave/add", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, String> slave_add(@ModelAttribute("newsForm") News news) {
-        boolean flag = newsService.addSlaveNews(news);
-        Map<String, String> result = new HashMap<>();
-        if (flag) {
-            result.put("status", "1");
-            result.put("msg", "发布成功");
-        } else {
-            result.put("status", "0");
-            result.put("msg", "发布失败");
-        }
-        return result;
-    }
-
-    @RequestMapping(value = "/news/slave/load/{id}", method = RequestMethod.GET)
-    public String slave_load(@PathVariable String id, ModelMap map) {
-        log.info("# ajax加载新闻对象");
-        News news = newsService.findSlaveNewsById(id);
-        map.addAttribute("news", news);
-        return "news/edit_form";
-    }
-
-    @RequestMapping(value = "/news/slave/edit", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, String> slave_edit(@ModelAttribute("newsForm") News news) {
-        boolean flag = newsService.editSlaveNews(news);
-        Map<String, String> result = new HashMap<>();
-        if (flag) {
-            result.put("status", "1");
-            result.put("msg", "发布成功");
-        } else {
-            result.put("status", "0");
-            result.put("msg", "发布失败");
-        }
-        return result;
-    }
-
-    @RequestMapping(value = "/news/slave/delete/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, String> slave_delte(@PathVariable String id) {
-        boolean flag = newsService.deleteSlaveNewById(id);
-        Map<String, String> result = new HashMap<>();
-        if (flag) {
-            result.put("status", "1");
-            result.put("msg", "删除成功");
-        } else {
-            result.put("status", "0");
-            result.put("msg", "删除失败");
-        }
-        return result;
-    }
-
-    @RequestMapping(value = "/news/slave/list", method = RequestMethod.GET)
-    public String slave_list(ModelMap map) {
-        PageInfo<News> page = newsService.findSlaveNewsByPage(null, null);
-        map.put("page", page);
-        return "news/slave_list";
-    }
-
-    @RequestMapping(value = "/news/slave/list_page", method = RequestMethod.POST)
-    public String slave_list_page(@RequestParam(value = "keywords", required = false) String keywords, @RequestParam(value = "pageNum", required = false) Integer pageNum, ModelMap map) {
-        log.info("#分页查询新闻 pageNum={} , keywords={}", pageNum, keywords);
-        PageInfo<News> page = newsService.findSlaveNewsByPage(pageNum, keywords);
-        map.put("page", page);
-        map.put("keywords", keywords);
-        return "news/slave_list_page";
+        return "news/list_page";
     }
 
 }

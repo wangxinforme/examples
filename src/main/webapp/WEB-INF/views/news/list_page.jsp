@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <div class="ibox-content">
 	<div class="table-responsive ">
 		<table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
@@ -44,7 +43,7 @@
 	</div>
 
 	<!-- 分页表单 -->
-	<form action="${ctx }/news/master/list_page" id="newsPageForm">
+	<form action="${ctx }/news/list_page" id="newsPageForm">
 		<!-- 查询条件，用隐藏表单域 -->
 		<input type="hidden" value="${keywords }" name="keywords" />
 

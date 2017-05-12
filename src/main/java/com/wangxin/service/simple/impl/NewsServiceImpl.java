@@ -40,7 +40,7 @@ public class NewsServiceImpl implements NewsService {
     @DataSourceRouter(DataSourceEnum.master)
     @Transactional
     @Override
-    public boolean addMasterNews(News news) {
+    public boolean addNews(News news) {
         if (news != null) {
             news.setId(FactoryAboutKey.getPkByMasterDB(MasterTablesEnum.T_NEWS));
             news.setCreateTime(Calendar.getInstance().getTime());
@@ -55,7 +55,7 @@ public class NewsServiceImpl implements NewsService {
 
     @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public boolean editMasterNews(News news) {
+    public boolean editNews(News news) {
         if (news != null && StringUtils.isNotBlank(news.getId())) {
             int flag = newsMapper.update(news);
             if (flag == 1)
@@ -69,7 +69,7 @@ public class NewsServiceImpl implements NewsService {
     @Transactional
     @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public boolean deleteMasterNewsById(String id) {
+    public boolean deleteNewsById(String id) {
         if (StringUtils.isNotBlank(id)) {
             int flag = newsMapper.delete(id);
             if (flag == 1)
@@ -82,7 +82,7 @@ public class NewsServiceImpl implements NewsService {
 
     @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public News findMasterNewsById(String id) {
+    public News findNewsById(String id) {
         if (StringUtils.isBlank(id))
             return null;
         else
@@ -91,7 +91,7 @@ public class NewsServiceImpl implements NewsService {
 
     @DataSourceRouter(DataSourceEnum.master)
     @Override
-    public PageInfo<News> findMasterNewsByPage(Integer pageNum, String keywords) {
+    public PageInfo<News> findNewsByPage(Integer pageNum, String keywords) {
         if (pageNum == null)
             pageNum = 1;
         PageHelper.startPage(pageNum, Constants.PAGE_SIZE);

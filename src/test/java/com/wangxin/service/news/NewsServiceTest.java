@@ -32,7 +32,7 @@ public class NewsServiceTest {
             news.setDescription("master_" + i);
             news.setAddress("master_" + i);
             news.setNewsTime(Calendar.getInstance().getTime());
-            newsService.addMasterNews(news);
+            newsService.addNews(news);
         }
 
         for (int i = 1; i < 91; i++) {

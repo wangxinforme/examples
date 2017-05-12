@@ -16,7 +16,7 @@
 
 	<mvc:resources mapping="/static/**" location="/static/" />
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
-	<mvc:view-controller path="/" view-name="redirect:/job/index" />
+	<mvc:view-controller path="/" view-name="redirect:/news/list" />
 
 	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager" />
 
