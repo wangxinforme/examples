@@ -14,12 +14,16 @@ public class ItemDocument implements ItemDefinition {
     private @Id @Indexed String id;
 
     private @Indexed(GOODSNAME) String goodsName;
+    private @Indexed(QUERY_GOODSNAME) String _goodsName;
 
     private @Indexed(BRANDNAME) String brandName;
+    private @Indexed(QUERY_BRANDNAME) String _brandName;
 
     private @Indexed(WORD) String word;
+    private @Indexed(QUERY_WORD) String _word;
 
     private @Indexed(GKEY) String gkey;
+    private @Indexed(QUERY_GKEY) String _gkey;
 
     private @Indexed(KEYWORDS) String keywords;
 
@@ -39,12 +43,28 @@ public class ItemDocument implements ItemDefinition {
         this.goodsName = goodsName;
     }
 
+    public String get_goodsName() {
+        return _goodsName;
+    }
+
+    public void set_goodsName(String _goodsName) {
+        this._goodsName = _goodsName;
+    }
+
     public String getBrandName() {
         return brandName;
     }
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    public String get_brandName() {
+        return _brandName;
+    }
+
+    public void set_brandName(String _brandName) {
+        this._brandName = _brandName;
     }
 
     public String getWord() {
@@ -55,12 +75,28 @@ public class ItemDocument implements ItemDefinition {
         this.word = word;
     }
 
+    public String get_word() {
+        return _word;
+    }
+
+    public void set_word(String _word) {
+        this._word = _word;
+    }
+
     public String getGkey() {
         return gkey;
     }
 
     public void setGkey(String gkey) {
         this.gkey = gkey;
+    }
+
+    public String get_gkey() {
+        return _gkey;
+    }
+
+    public void set_gkey(String _gkey) {
+        this._gkey = _gkey;
     }
 
     public String getKeywords() {
@@ -73,7 +109,9 @@ public class ItemDocument implements ItemDefinition {
 
     @Override
     public String toString() {
-        return "ItemDocument [id=" + id + ", goodsName=" + goodsName + ", brandName=" + brandName + ", word=" + word + ", gkey=" + gkey + ", keywords=" + keywords + "]";
+        return "ItemDocument [id=" + id + ", goodsName=" + goodsName + ", _goodsName=" + _goodsName + ", brandName=" + brandName + ", _brandName=" + _brandName + ", word=" + word + ", _word=" + _word + ", gkey=" + gkey + ", _gkey=" + _gkey + ", keywords=" + keywords + "]";
     }
+
+    
 
 }

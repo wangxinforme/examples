@@ -2,12 +2,14 @@ package com.wangxin.common.utils;
 
 import org.springframework.data.domain.Page;
 
-public class SolrPageInfo {
+public class SolrPageUtil {
+
 
     static int navigatePages = 8;// 导航页码数
 
     public static int[] getNavigatepageNums(Page<?> page) {
-        int pages = (int) page.getTotalElements();// 总页数
+        int pages = (int) page.getTotalPages();// 总页数
+        pages = pages - 1 < 1 ? pages : pages - 1;
         int[] navigatepageNums;//// 所有导航页号
         int pageNum = page.getNumber();// 当前页
         // 当总页数小于或等于导航页码数时

@@ -60,7 +60,7 @@ public class KeyServiceImpl implements KeyService {
     public List<Key> getMasterTables() {
         List<Key> keyList = new ArrayList<Key>();
         try {
-            keyList = keyMapper.getTablesBySQLite();
+            keyList = keyMapper.getTablesByMySQL();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class KeyServiceImpl implements KeyService {
     public List<Key> getSlaveTables() {
         List<Key> keyList = new ArrayList<Key>();
         try {
-            keyList = keyMapper.getTablesBySQLite();
+            keyList = keyMapper.getTablesByMySQL();
         } catch (Exception e) {
             e.printStackTrace();
         }

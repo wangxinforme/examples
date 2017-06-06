@@ -14,5 +14,4 @@ public interface ItemDefinition {
     String QUERY_BRANDNAME = "_brandName";
     String QUERY_WORD = "_word";
     String QUERY_GKEY = "_gkey";
-    String QUERY_KEYWORDS = "keywords";
 }
