@@ -1,18 +1,24 @@
 package com.wangxin.solr;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.solr.repository.SolrCrudRepository;
+import org.springframework.stereotype.Component;
 
-import com.wangxin.entity.simple.Item;
+@Component
+public interface CustomItemDocumentRepository extends SolrCrudRepository<ItemDocument, String> {
 
-public interface CustomItemDocumentRepository  {
+    // @Highlight(prefix = "<b>", postfix = "</b>")
+    // @Query(fields = { ItemDefinition.KEYWORDS }, defaultOperator = Operator.AND)
+    // public Page<ItemDocument> searchForPage(Collection<String> keywords, Pageable page);
 
-    public void update(Item item);
+    List<ItemDocument> findAll();
 
-    public ItemDocument buildDocument(Item item);
-
-    public Page<ItemDocument> searchForPage(String keywords, Pageable page);
-
-    public void deleteAllItemDocument();
+    //@Query(fields = "goodsName", defaultOperator = Operator.AND)
+    //@Query("select t from ItemDocument t")
+    //Page<ItemDocument> findAll(Collection<String> keywords, Pageable page);
+    Page<ItemDocument> findAll(Pageable page);
 
 }

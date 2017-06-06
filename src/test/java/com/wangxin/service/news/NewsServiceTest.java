@@ -14,7 +14,7 @@ import com.wangxin.entity.simple.News;
 import com.wangxin.service.simple.NewsService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml", "classpath:/spring/applicationContext-dao.xml" })
+@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml", "classpath:/spring/applicationContext-dao.xml", "classpath:/spring/applicationContext-solr.xml" })
 public class NewsServiceTest {
 
     private static final Logger log = LoggerFactory.getLogger(NewsServiceTest.class);
@@ -26,7 +26,7 @@ public class NewsServiceTest {
     public void addNews() {
         log.info("# 生成测试数据");
         News news = null;
-        for (int i = 1; i < 91; i++) {
+        for (int i = 100; i < 201; i++) {
             news = new News();
             news.setTitle("master_" + i);
             news.setDescription("master_" + i);
@@ -35,7 +35,7 @@ public class NewsServiceTest {
             newsService.addNews(news);
         }
 
-        for (int i = 1; i < 91; i++) {
+        for (int i = 100; i < 201; i++) {
             news = new News();
             news.setTitle("slave_" + i);
             news.setDescription("slave_" + i);
@@ -43,6 +43,6 @@ public class NewsServiceTest {
             news.setNewsTime(Calendar.getInstance().getTime());
             newsService.addSlaveNews(news);
         }
-
     }
+
 }

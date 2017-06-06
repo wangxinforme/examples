@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.wangxin.common.utils.SolrPageInfo;
 import com.wangxin.entity.simple.News;
 import com.wangxin.service.simple.ItemService;
 import com.wangxin.service.simple.NewsService;
@@ -115,14 +117,19 @@ public class ItemController {
     public String list(ModelMap map) {
         Page<ItemDocument> page = itemService.searchForPage(null, 1);
         map.put("page", page);
+        map.put("navigatepageNums", SolrPageInfo.getNavigatepageNums(page));
+        log.debug("# {}",JSON.toJSONString(page));
         return "item/list";
     }
 
     @RequestMapping(value = "/item/list_page", method = RequestMethod.POST)
     public String list_page(@RequestParam(value = "keywords", required = false) String keywords, @RequestParam(value = "pageNum", required = false) Integer pageNum, ModelMap map) {
         log.info("#分页查询新闻 pageNum={} , keywords={}", pageNum, keywords);
+        if(pageNum==null)
+            pageNum=1;
         Page<ItemDocument> page = itemService.searchForPage(keywords, pageNum);
         map.put("page", page);
+        map.put("navigatepageNums", SolrPageInfo.getNavigatepageNums(page));
         map.put("keywords", keywords);
         return "item/list_page";
     }

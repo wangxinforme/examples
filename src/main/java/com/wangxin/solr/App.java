@@ -18,7 +18,7 @@ public class App {
             String connectionString = "jdbc:solr://127.0.0.1:2281,127.0.0.1:2381,127.0.0.1:2481?collection=xjh&aggregationMode=map_reduce&numWorkers=1";
             connection = DriverManager.getConnection(connectionString);
             statement = connection.createStatement();
-            String sql = "SELECT id, goodsName, brandName , word , gkey FROM xjh WHERE _goodsName='商品5-逗比' ORDER BY id";//
+            String sql = "SELECT id, goodsName, brandName , word , gkey FROM xjh ORDER BY id";//
             resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {

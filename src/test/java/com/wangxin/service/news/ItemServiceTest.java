@@ -25,7 +25,7 @@ public class ItemServiceTest {
     @Test
     public void testSearchForPage() {
         try {
-            Page<ItemDocument> page = itemService.searchForPage(null, 1);
+            Page<ItemDocument> page = itemService.searchForPage("商品", 1);
             log.info("{}", JSON.toJSONString(page));
         } catch (Exception e) {
             e.printStackTrace();

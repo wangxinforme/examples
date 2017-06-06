@@ -1,37 +1,27 @@
 package com.wangxin.solr;
 
-import java.io.Serializable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.Indexed;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 
-import org.apache.solr.client.solrj.beans.Field;
+@SolrDocument(solrCoreName = ItemDocument.SOLR_COLLECTION)
+public class ItemDocument implements ItemDefinition {
 
-public class ItemDocument implements Serializable {
+    @Value("${solr.collection}")
+    public final static String SOLR_COLLECTION = "";
 
-    private static final long serialVersionUID = -7822381045106227359L;
+    private @Id @Indexed String id;
 
-    public static final String FIELD_ID = "id";
-    public static final String FIELD_GOODSNAME = "goodsName";
-    public static final String FIELD_BRANDNAME = "brandName";
-    public static final String FIELD_WORD = "word";
-    public static final String FIELD_GKEY = "gkey";
-    public static final String FIELD_KEYWORDS = "keywords";
+    private @Indexed(GOODSNAME) String goodsName;
 
-    @Field(FIELD_ID)
-    private String id;
+    private @Indexed(BRANDNAME) String brandName;
 
-    @Field(FIELD_GOODSNAME)
-    private String goodsName;
+    private @Indexed(WORD) String word;
 
-    @Field(FIELD_BRANDNAME)
-    private String brandName;
+    private @Indexed(GKEY) String gkey;
 
-    @Field(FIELD_WORD)
-    private String word;
-
-    @Field(FIELD_GKEY)
-    private String gkey;
-
-    @Field(FIELD_KEYWORDS)
-    private String keywords;
+    private @Indexed(KEYWORDS) String keywords;
 
     public String getId() {
         return id;
@@ -79,6 +69,11 @@ public class ItemDocument implements Serializable {
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemDocument [id=" + id + ", goodsName=" + goodsName + ", brandName=" + brandName + ", word=" + word + ", gkey=" + gkey + ", keywords=" + keywords + "]";
     }
 
 }

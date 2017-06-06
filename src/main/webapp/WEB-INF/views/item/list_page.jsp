@@ -43,15 +43,15 @@
 	</div>
 
 	<!-- 分页表单 -->
-	<form action="${ctx }/news/list_page" id="newsPageForm">
+	<form action="${ctx }/item/list_page" id="itemPageForm">
 		<!-- 查询条件，用隐藏表单域 -->
 		<input type="hidden" value="${keywords }" name="keywords" />
 
 		<!-- 分页控键 -->
 		<!-- formId: 分页控件表单ID -->
 		<!-- showPageId: ajax异步分页获取的数据需要加载到指定的位置 -->
-		<jsp:include page="/WEB-INF/views/common/page.jsp" flush="true">
-			<jsp:param name="formId" value="newsPageForm" />
+		<jsp:include page="/WEB-INF/views/common/solr_page.jsp" flush="true">
+			<jsp:param name="formId" value="itemPageForm" />
 			<jsp:param name="showPageId" value="ibox" />
 		</jsp:include>
 	</form>
