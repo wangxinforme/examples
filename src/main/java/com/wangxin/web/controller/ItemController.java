@@ -22,9 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wangxin.common.utils.SolrPageUtil;
-import com.wangxin.entity.simple.News;
+import com.wangxin.entity.simple.Item;
 import com.wangxin.service.simple.ItemService;
-import com.wangxin.service.simple.NewsService;
 import com.wangxin.solr.ItemDocument;
 
 /** 
@@ -39,9 +38,6 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
-
-    @Autowired
-    private NewsService newsService;
 
     /*
      * 表单提交日期绑定
@@ -61,8 +57,8 @@ public class ItemController {
 
     @RequestMapping(value = "/item/add", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> add(@ModelAttribute("newsForm") News news) {
-        boolean flag = newsService.addNews(news);
+    public Map<String, String> add(@ModelAttribute("itemForm") Item item) {
+        boolean flag = itemService.addItem(item);
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
@@ -77,15 +73,15 @@ public class ItemController {
     @RequestMapping(value = "/item/load/{id}", method = RequestMethod.GET)
     public String load(@PathVariable String id, ModelMap map) {
         log.info("# ajax加载新闻对象");
-        News news = newsService.findNewsById(id);
-        map.addAttribute("news", news);
+        ItemDocument item = itemService.findItemById(id);
+        map.addAttribute("item", item);
         return "item/edit_form";
     }
 
     @RequestMapping(value = "/item/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> edit(@ModelAttribute("newsForm") News news) {
-        boolean flag = newsService.editNews(news);
+    public Map<String, String> edit(@ModelAttribute("newsForm") Item item) {
+        boolean flag = itemService.editItem(item);
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
@@ -100,7 +96,7 @@ public class ItemController {
     @RequestMapping(value = "/item/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, String> delte(@PathVariable String id) {
-        boolean flag = newsService.deleteNewsById(id);
+        boolean flag = itemService.deleteItemById(id);
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
@@ -130,6 +126,21 @@ public class ItemController {
         map.put("navigatepageNums", SolrPageUtil.getNavigatepageNums(page));
         map.put("keywords", keywords);
         return "item/list_page";
+    }
+    
+    @RequestMapping(value = "/item/sync", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> sysnc(@RequestParam String syncType) {
+        boolean flag = itemService.syncItem(syncType);
+        Map<String, String> result = new HashMap<>();
+        if (flag) {
+            result.put("status", "1");
+            result.put("msg", "删除成功");
+        } else {
+            result.put("status", "0");
+            result.put("msg", "删除失败");
+        }
+        return result;
     }
 
 }

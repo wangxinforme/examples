@@ -1,12 +1,18 @@
 package com.wangxin.solr;
 
+import java.io.Serializable;
+import java.util.Date;
+
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 @SolrDocument(solrCoreName = ItemDocument.SOLR_COLLECTION)
-public class ItemDocument implements ItemDefinition {
+public class ItemDocument implements ItemDefinition, Serializable {
+
+    private static final long serialVersionUID = -3664270470198813947L;
 
     @Value("${solr.collection}")
     public final static String SOLR_COLLECTION = "";
@@ -24,6 +30,8 @@ public class ItemDocument implements ItemDefinition {
 
     private @Indexed(GKEY) String gkey;
     private @Indexed(QUERY_GKEY) String _gkey;
+
+    private @Indexed(CREATETIME) Date createTime;
 
     private @Indexed(KEYWORDS) String keywords;
 
@@ -99,6 +107,14 @@ public class ItemDocument implements ItemDefinition {
         this._gkey = _gkey;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     public String getKeywords() {
         return keywords;
     }
@@ -107,11 +123,20 @@ public class ItemDocument implements ItemDefinition {
         this.keywords = keywords;
     }
 
-    @Override
-    public String toString() {
-        return "ItemDocument [id=" + id + ", goodsName=" + goodsName + ", _goodsName=" + _goodsName + ", brandName=" + brandName + ", _brandName=" + _brandName + ", word=" + word + ", _word=" + _word + ", gkey=" + gkey + ", _gkey=" + _gkey + ", keywords=" + keywords + "]";
+    public SolrInputDocument getSolrInputDocument() {
+        SolrInputDocument d = new SolrInputDocument();
+        d.addField(ID, id);
+        d.addField(GOODSNAME, goodsName);
+        d.addField(BRANDNAME, brandName);
+        d.addField(WORD, word);
+        d.addField(GKEY, gkey);
+        d.addField(CREATETIME, createTime);
+        return d;
     }
 
-    
+    @Override
+    public String toString() {
+        return "ItemDocument [id=" + id + ", goodsName=" + goodsName + ", _goodsName=" + _goodsName + ", brandName=" + brandName + ", _brandName=" + _brandName + ", word=" + word + ", _word=" + _word + ", gkey=" + gkey + ", _gkey=" + _gkey + ", createTime=" + createTime + ", keywords=" + keywords + "]";
+    }
 
 }

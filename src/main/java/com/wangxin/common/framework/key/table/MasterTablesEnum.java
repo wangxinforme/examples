@@ -8,6 +8,7 @@ package com.wangxin.common.framework.key.table;
 public enum MasterTablesEnum {
 
     /*表名请大写*/
-    T_NEWS
+    T_NEWS,
+    GO_ITEM_T,
 
 }

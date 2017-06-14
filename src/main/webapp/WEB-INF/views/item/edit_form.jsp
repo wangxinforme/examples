@@ -1,29 +1,35 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<input type="hidden" name="id" value="${news.id }" />
+<input type="hidden" name="id" value="${item.id }" />
 <div class="form-group">
-	<label class="col-sm-4 control-label" for="title">标题 <span class="text-danger">*</span></label>
+	<label class="col-sm-4 control-label" for="goodsName">商品名称 <span class="text-danger">*</span></label>
 	<div class="col-sm-8">
-		<input type="text" id="title" name="title" value="${news.title }" required class="form-control">
+		<input type="text" id="goodsName" name="goodsName" value="${item.goodsName }" required class="form-control">
 	</div>
 </div>
 <div class="form-group">
-	<label class="col-sm-4 control-label" for="description">内容 <span class="text-danger">*</span></label>
+	<label class="col-sm-4 control-label" for="brandName">品牌名称 <span class="text-danger">*</span></label>
 	<div class="col-sm-8">
-		<input type="text" id="description" name="description" value="${news.description }" required class="form-control">
+		<input type="text" id="brandName" name="brandName" value="${item.brandName }" required class="form-control">
 	</div>
 </div>
 <div class="form-group">
-	<label class="col-sm-4 control-label" for="address">地址 <span class="text-danger">*</span></label>
+	<label class="col-sm-4 control-label" for="word">促销语 <span class="text-danger">*</span></label>
 	<div class="col-sm-8">
-		<input type="text" id="address" name="address" value="${news.address }" required class="form-control">
+		<input type="text" id="word" name="word" value="${item.word }" required class="form-control">
 	</div>
 </div>
 <div class="form-group">
-	<label class="col-sm-4 control-label" for="newsTime">新闻发生时间 <span class="text-danger">*</span></label>
+	<label class="col-sm-4 control-label" for="gkey">关键字 <span class="text-danger">*</span></label>
 	<div class="col-sm-8">
-		<input type="text" id="newsTime" name="newsTime" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm',firstDayOfWeek:1,readOnly:true})" value='<fmt:formatDate value="${news.newsTime}" pattern="yyyy-MM-dd hh:mm" />' class="form-control Wdate" required>
+		<input type="text" id="gkey" name="gkey" value="${item.gkey }" required class="form-control">
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-4 control-label" for="createTime">创建时间 <span class="text-danger">*</span></label>
+	<div class="col-sm-8">
+		<input type="text" id="createTime" name="createTime" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm',firstDayOfWeek:1,readOnly:true})" value='<fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd hh:mm" />' class="form-control Wdate" required>
 	</div>
 </div>
 <div class="form-group m-t-sm">

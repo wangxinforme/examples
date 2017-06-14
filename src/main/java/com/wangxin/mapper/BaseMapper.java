@@ -55,29 +55,14 @@ public interface BaseMapper<S, T> {
      */
     Map<String, Object> queryOne(Map<String, Object> map);
 
-    /**
-     * @Title 根据Map查找多个
-     * @author <font color="green"><b>Vincent.wang</b></font>
-     * @param map
-     * @return List<Map>
-     * @throws Exception
-     */
-    List<Map<String, Object>> queryAll(Map<String, Object> map);
 
     /***
-     * @Title 根据条件查询数据
+     * @Title 查询所有数据
      * @param map
      *            查询条件
      * @return 对象集合
      */
-    List<T> findAllByFilter(Map<String, Object> map);
+    List<T> findAll();
 
-    /**
-     * @Title 根据条件查询数据记录数
-     * @param map
-     *            查询条件
-     * @return 记录数
-     */
-    int findAllByFilterCount(Map<String, Object> map);
 
 }

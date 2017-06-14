@@ -40,8 +40,8 @@
 				<div class="col-sm-4">
 					<br/>
 					<ol class="breadcrumb">
-						<li>多数据库测试</li>
-						<li class="active">主数据库新增</li>
+						<li>操作solrcloud6.5</li>
+						<li class="active">新增</li>
 					</ol>
 				</div>
 			</div>
@@ -50,33 +50,39 @@
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<div class="ibox float-e-margins ">
 					<div class="ibox-content p-t-slg">
-						<form name="entity" id="input_form" class="form-horizontal">
+						<form name="entity" id="itemForm" class="form-horizontal">
 
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="title"><span class="text-danger">* </span>标题</label>
+								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="goodsName"><span class="text-danger">* </span>商品名称</label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text" id="title" name="title" value="" placeholder="请输入标题" class="form-control" required>
+									<input type="text" id="goodsName" name="goodsName" value="" placeholder="请输入商品名称" class="form-control" required>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="description"><span class="text-danger">*</span>内容</label>
+								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="brandName"><span class="text-danger">*</span>品牌名称</label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text" id="description" name="description" value="" placeholder="请输入内容" class="form-control" required>
+									<input type="text" id="brandName" name="brandName" value="" placeholder="请输入品牌名称" class="form-control" required>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="address"><span class="text-danger">*</span>地址</label>
+								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="word"><span class="text-danger">*</span>促销语</label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text" id="address" name="address" value="" placeholder="请输入地址" class="form-control" required>
+									<input type="text" id="word" name="word" value="" placeholder="请输入促销语" class="form-control" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="gkey"><span class="text-danger">*</span>关键字</label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text" id="gkey" name="gkey" value="" placeholder="请输入关键字" class="form-control" required>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="newsTime"><span class="text-danger">*</span>发生时间</label>
+								<label class="col-sm-12 col-md-4 col-lg-2 control-label" for="createTime"><span class="text-danger">*</span>创建时间</label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text" id="newsTime" name="newsTime" value="" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm',firstDayOfWeek:1,readOnly:true})" placeholder="请选择发生时间" class="form-control Wdate" required>
+									<input type="text" id="createTime" name="createTime" value="" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm',firstDayOfWeek:1,readOnly:true})" placeholder="请选择发生时间" class="form-control Wdate" required>
 								</div>
 							</div>
 
@@ -143,7 +149,7 @@
       disable_search_threshold: 10
     });
     $(document).ready(function() {
-      $("#input_form").validate({
+      $("#itemForm").validate({
         debug: true,
         submitHandler: function(form) {
           addform(form);
@@ -151,13 +157,13 @@
       });
       function addform(form) {
         $.ajax({
-          url: _ctx + "/news/add",
+          url: _ctx + "/item/add",
           type: "post",
           data: $(form).serialize(),
           success: function(data) {
             if (data.status == '1') {
               toastr.success('', data.msg);
-              window.location.href=_ctx+"/news/list"; 
+              window.location.href=_ctx+"/item/list"; 
             } else
               toastr.error('', data.msg);
           },

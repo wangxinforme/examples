@@ -37,7 +37,7 @@
 			<!--------当前位置----->
 			<div class="row  border-bottom white-bg page-heading">
 				<div class="col-sm-4">
-					<br/>
+					<br />
 					<ol class="breadcrumb">
 						<li><a href="javascript:void(0)">操作solrcloud6.5</a></li>
 
@@ -49,10 +49,16 @@
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-4">
 							<div class="input-group">
 								<input type="text" class="input-sm form-control" id="keywords" name="keywords" value="" placeholder="关键字"> <span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" id="queryItemBtn">查询</button></span>
 							</div>
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="btn btn-sm btn-primary btn-sync" data-dismiss="modal" data-sync-type="add">增量同步</button>
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="btn btn-sm btn-primary btn-sync" data-dismiss="modal" data-sync-type="all">全量同步</button>
 						</div>
 					</div>
 				</div>
@@ -105,7 +111,8 @@
 
 	<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="${ctx}/static/js/plugins/sweetalert/sweetalert.min.js" async></script><!---对话框 alert--->
+	<script src="${ctx}/static/js/plugins/sweetalert/sweetalert.min.js" async></script>
+	<!---对话框 alert--->
 	<!-- 插件 scripts -->
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js" async></script>
 	<!---顶部弹出提示--->
@@ -140,8 +147,31 @@
       // 分页查询
       function list_page() {
         var keywords = $("#keywords").val();
-        $("#ibox").load(_ctx + '/item/list_page',{"keywords":keywords});
+        $("#ibox").load(_ctx + '/item/list_page', {
+          "keywords": keywords
+        });
       }
+
+      $(".btn-sync").click(function() {
+        var syncType = $(this).attr("data-sync-type");
+        $.ajax({
+          url: _ctx + "/item/sync",
+          type: "post",
+          data: {
+            "syncType": syncType
+          },
+          success: function(data) {
+            if (data.status == '1') {
+              list_page();//保存成功，刷新数据
+              toastr.success('', data.msg);
+            } else
+              toastr.error('', data.msg);
+          },
+          error: function(data) {
+            toastr.error('', '保存发布失败');
+          }
+        });
+      });
 
       function editForm(form) {
         $.ajax({
@@ -168,45 +198,41 @@
         var id = button.data("id");
         $("#itemForm").load(_ctx + '/item/load/' + id);//加载待编辑数据
       });
-      
-      
-      
-     //删除数据
-      $('#editable-sample button.delete').on('click', function () {
-          var row=$(this).parents("tr")[0];
-          var newsid=$(this).data("id");
-              swal({
-                  title: "您确定要删除吗?",
-                  text: "用户账户删除后将不可恢复!",
-                  type: "warning",
-                  showCancelButton: true,
-                  confirmButtonColor: "#1ab394",
-                  confirmButtonText: "确定删除！",
-                  closeOnConfirm: false
-              }, function () {
-                  row.className="animated bounceOut";
-                  $.ajax({
-                    url: _ctx + "/news/delete/"+newsid,
-                    type: "get",
-                    success: function(data) {
-                      if (data.status == '1') {
-                        row.parentNode.removeChild(row);
-                        swal("删除成功!", data.msg,"success");
-                      } else{
-                        row.className="animated fadeInLeft";
-                        swal("删除失败!", data.msg,"error");
-                      }
-                    },
-                    error: function(data) {
-                      row.className="animated fadeInLeft";
-                      swal("删除失败!", "newsid="+newsid+" 删除失败！","error");
-                    }
-                  });
-              });
+
+      //删除数据
+      $('#editable-sample button.delete').on('click', function() {
+        var row = $(this).parents("tr")[0];
+        var newsid = $(this).data("id");
+        swal({
+          title: "您确定要删除吗?",
+          text: "用户账户删除后将不可恢复!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#1ab394",
+          confirmButtonText: "确定删除！",
+          closeOnConfirm: false
+        }, function() {
+          row.className = "animated bounceOut";
+          $.ajax({
+            url: _ctx + "/item/delete/" + newsid,
+            type: "get",
+            success: function(data) {
+              if (data.status == '1') {
+                row.parentNode.removeChild(row);
+                swal("删除成功!", data.msg, "success");
+              } else {
+                row.className = "animated fadeInLeft";
+                swal("删除失败!", data.msg, "error");
+              }
+            },
+            error: function(data) {
+              row.className = "animated fadeInLeft";
+              swal("删除失败!", "newsid=" + newsid + " 删除失败！", "error");
+            }
+          });
+        });
       });
-      
-      
-      
+
     });
   </script>
 </body>

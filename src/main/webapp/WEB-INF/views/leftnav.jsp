@@ -21,7 +21,11 @@
 			</div>
 		</div>
 		<ul class="nav metismenu" id="side-menu">
-			<li><a href="${ctx }/item/list"><i class="fa fa-sitemap"></i> <span class="nav-label">操作solrcloud6.5 </span></a>
+			<li><a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">操作solrcloud6.5 </span><span class="fa arrow"></a>
+				<ul class="nav nav-second-level collapse">
+					<li><a href="${ctx }/item/add"><span class="nav-label">新增</span></a></li>
+					<li><a href="${ctx }/item/list"><span class="nav-label">查询</span></a></li>
+				</ul></li>
 			<li><a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">测试 </span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
 					<li><a href="${ctx }/news/add"><span class="nav-label">新增</span></a></li>

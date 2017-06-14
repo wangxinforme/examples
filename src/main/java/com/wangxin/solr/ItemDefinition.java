@@ -8,6 +8,7 @@ public interface ItemDefinition {
     String WORD = "word";
     String GKEY = "gkey";
     String KEYWORDS = "keywords";
+    String CREATETIME = "createTime";
 
     // For Query
     String QUERY_GOODSNAME = "_goodsName";
