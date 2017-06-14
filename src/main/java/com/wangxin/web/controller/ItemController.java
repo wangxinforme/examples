@@ -135,10 +135,10 @@ public class ItemController {
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
-            result.put("msg", "删除成功");
+            result.put("msg", "同步成功");
         } else {
             result.put("status", "0");
-            result.put("msg", "删除失败");
+            result.put("msg", "同步失败");
         }
         return result;
     }
